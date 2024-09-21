@@ -29,7 +29,7 @@ export default function LoginForm() {
       } else {
         const resData = await res.json();
         console.log(resData.message);
-        router.push(`/homepage`);
+        router.replace(`/homepage`);
       }
     } catch (err) {
       console.error('Error during POST request:', err);
