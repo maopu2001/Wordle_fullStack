@@ -37,6 +37,6 @@ export default function GameWordForm() {
       setErrorMessage(resData.message);
       return;
     }
-    router.push(`/${resData.gameCode}`);
+    router.push(`/game/${resData.gameCode}`);
   }
 }
