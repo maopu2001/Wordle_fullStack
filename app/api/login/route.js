@@ -18,18 +18,16 @@ export async function POST(req) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const storedPassword = savedUser.password;
-
-    if (!bcrypt.compareSync(password, storedPassword)) {
+    if (!bcrypt.compareSync(password, savedUser.password)) {
       return NextResponse.json({ message: 'username or password is incorrect' }, { status: 400 });
     }
 
-    const token = jwt.sign({ username: username }, JWT_SECRET);
+    const token = jwt.sign({ userId: savedUser._id }, JWT_SECRET);
+
     const res = NextResponse.json({ message: 'User successfully Logged in' }, { status: 200 });
     res.cookies.set('token', token, {
       // httpOnly: true, // Recommended for security
       // expires: expiresInSeconds(3600),
-      path: '/',
     });
     return res;
   } catch (err) {

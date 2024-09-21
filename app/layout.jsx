@@ -14,8 +14,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="h-screen w-screen">
-        <div className="h-screen px-10 py-20 flex flex-col justify-center items-center gap-3 ">
+      <body className="h-screen w-screen flex flex-col justify-center items-center">
+        <div className="w-screen px-10 py-20 flex flex-col justify-center items-center gap-3">
           <Link href="/" className="text-4xl font-bold uppercase">
             wordle
           </Link>
