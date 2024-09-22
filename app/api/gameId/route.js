@@ -1,4 +1,4 @@
-import { encrypt } from '@/lib/simpleEncrypt';
+import { connectDB, GameId } from '@/lib/connectDB';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -8,9 +8,12 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Word Field must not be empty' }, { status: 400 });
     }
 
-    const gameCode = encrypt(gameWord);
+    await connectDB();
 
-    return NextResponse.json({ gameCode }, { status: 200 });
+    const newGame = new GameId({ gameWord: gameWord.toUpperCase() });
+    await newGame.save();
+
+    return NextResponse.json({ gameId: newGame._id }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: err.message || err }, { status: 500 });
   }

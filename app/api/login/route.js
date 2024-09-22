@@ -26,17 +26,10 @@ export async function POST(req) {
 
     const res = NextResponse.json({ message: 'User successfully Logged in' }, { status: 200 });
     res.cookies.set('token', token, {
-      // httpOnly: true, // Recommended for security
-      // expires: expiresInSeconds(3600),
+      maxAge: 3600 * 24, //24h
     });
     return res;
   } catch (err) {
     return NextResponse.json({ message: err.message || err }, { status: 500 });
-  }
-
-  function expiresInSeconds(sec) {
-    const date = new Date();
-    date.setSeconds(date.getSeconds() + sec);
-    return date;
   }
 }

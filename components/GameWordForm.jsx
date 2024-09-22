@@ -19,7 +19,7 @@ export default function GameWordForm() {
         }}
         className="shadow-none border-0 border-b-2 border-black bg-white"
       />
-      <span>{errorMessage}</span>
+      <span className="text-red-600">{errorMessage}</span>
       <Button onClick={createNewWordle} className="uppercase">
         create
       </Button>
@@ -27,16 +27,16 @@ export default function GameWordForm() {
   );
 
   async function createNewWordle() {
-    const res = await fetch('/api/gamecode', {
+    const res = await fetch('/api/gameId', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ gameWord: gameWord }),
     });
     const resData = await res.json();
-    if (res.statusCode >= 400) {
+    if (res.status >= 400) {
       setErrorMessage(resData.message);
       return;
     }
-    router.push(`/game/${resData.gameCode}`);
+    if (res.status === 200) router.push(`/game/${resData.gameId}`);
   }
 }

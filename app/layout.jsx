@@ -15,12 +15,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="h-screen w-screen flex flex-col justify-center items-center">
-        <div className="w-screen px-10 py-20 flex flex-col justify-center items-center gap-3">
+        <header className="absolute top-5 w-full text-center">
           <Link href="/" className="text-4xl font-bold uppercase">
             wordle
           </Link>
-          {children}
-        </div>
+        </header>
+        <div className="w-screen px-10 py-20 flex flex-col justify-center items-center gap-3">{children}</div>
         <footer className="fixed bottom-0 bg-black text-white w-full h-8 p-1 text-center">
           &copy; Copyright 2024 | M. Aktaruzzaman Opu
         </footer>
