@@ -23,7 +23,10 @@ export default function LetterBox(prop) {
   return (
     <div className="flex gap-2">
       {Array.from({ length: wordLength }, (_, i) => (
-        <span className={`${letterBgColor(i)} text-3xl text-center size-10 rounded-md cursor-pointer`} key={i}>
+        <span
+          className={`${letterBgColor(i)} text-3xl size-10 rounded-md cursor-pointer flex justify-center items-center`}
+          key={i}
+        >
           {wordle[i] || ''}
         </span>
       ))}

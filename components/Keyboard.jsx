@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 export default function Keyboard(props) {
@@ -8,20 +7,14 @@ export default function Keyboard(props) {
   const r2 = 'ASDFGHJKL';
   const r3 = 'ZXCVBNM';
 
-  useEffect(() => {
-    window.addEventListener('keydown', setKeyColor);
-    return () => {
-      window.removeEventListener('keydown', setKeyColor);
-    };
-  }, [props.wordle]);
-
   return (
-    <div className="w-[400px] space-y-1">
+    <div className="w-[416px] space-y-1 bg-slate-200 p-2 rounded-lg">
       <div className="grid grid-cols-10 gap-1">
         {r1.split('').map((letter, i) => (
           <Button
             onClick={(e) => eventHandler(e)}
-            className={`${setKeyColor(letter)} text-black lg:pointer-events-none`}
+            variant="secondary"
+            className={`${setKeyColor(letter)} lg:pointer-events-none`}
             key={i}
             value={letter}
           >
@@ -33,7 +26,8 @@ export default function Keyboard(props) {
         {r2.split('').map((letter, i) => (
           <Button
             onClick={(e) => eventHandler(e)}
-            className={`${setKeyColor(letter)} text-black lg:pointer-events-none`}
+            variant="secondary"
+            className={`${setKeyColor(letter)} lg:pointer-events-none`}
             key={i}
             value={letter}
           >
@@ -49,7 +43,8 @@ export default function Keyboard(props) {
         {r3.split('').map((letter, i) => (
           <Button
             onClick={(e) => eventHandler(e)}
-            className={`${setKeyColor(letter)} text-black lg:pointer-events-none`}
+            variant="secondary"
+            className={`${setKeyColor(letter)} lg:pointer-events-none`}
             key={i}
             value={letter}
           >
@@ -63,7 +58,8 @@ export default function Keyboard(props) {
       </div>
       <Button
         onClick={(e) => eventHandler(e)}
-        className={`lg:pointer-events-none w-full bg-slate-300 text-black`}
+        variant="secondary"
+        className={`lg:pointer-events-none w-full`}
         value="Space"
       >
         Space
@@ -73,17 +69,19 @@ export default function Keyboard(props) {
 
   function eventHandler(e) {
     e.preventDefault();
-    const key = e.target.value;
-    if (key === 'Backspace' || key === 'Enter' || key === 'Space') {
-      const event = new KeyboardEvent('keydown', {
-        key: key,
-        code: key,
-      });
-      return window.dispatchEvent(event);
+    const { value } = e.target;
+    let code, key;
+    if (value === 'Backspace' || value === 'Enter') {
+      (key = value), (code = value);
+    } else if (value === 'Space') {
+      (key = ' '), (code = value);
+    } else {
+      (key = value.toLowerCase()), (code = `Key${value}`);
     }
+
     const event = new KeyboardEvent('keydown', {
       key: key,
-      code: `Key${key.toUpperCase()}`,
+      code: code,
     });
     return window.dispatchEvent(event);
   }
@@ -97,7 +95,7 @@ export default function Keyboard(props) {
       case 'N':
         return 'bg-gray-500';
       default:
-        return 'bg-slate-300';
+        return '';
     }
   }
 }
