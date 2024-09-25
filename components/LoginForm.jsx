@@ -30,6 +30,7 @@ export default function LoginForm() {
         const resData = await res.json();
         console.log(resData.message);
         router.replace(`/homepage`);
+
       }
     } catch (err) {
       console.error('Error during POST request:', err);
