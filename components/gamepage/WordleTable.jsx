@@ -85,9 +85,8 @@ export default function WordleTable(props) {
     newLetterPositionArray[selected] = resData.letterPosition;
     setLetterPositionArray(newLetterPositionArray);
     setSelected(selected + 1);
-
     // when the player lose
-    if (status !== 200 && selected === 5) setLBanner('block');
+    if (status !== 200 && selected === 5) return setLBanner('block');
   }
 
   return (
@@ -105,7 +104,7 @@ export default function WordleTable(props) {
         ))}
       </div>
       <Keyboard alphabet={alphabet} />
-      <WinnerBanner className={wBanner} selected={selected} />
+      <WinnerBanner className={wBanner} selected={selected} gameWord={wordTable[selected - 1]} />
       <LosserBanner className={lBanner} gameId={gameId} />
     </div>
   );

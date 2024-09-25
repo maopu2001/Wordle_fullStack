@@ -26,7 +26,7 @@ export default function LosserBanner(props) {
 
   return (
     <div
-      className={`${className} absolute w-4/5 h-1/3 rounded-3xl bg-gray-200 flex flex-col justify-center items-center gap-2`}
+      className={`${className} absolute max-w-[90%] w-[500px] min-h-1/3 h-fit rounded-3xl bg-gray-200 flex flex-col justify-center items-center gap-2 p-5`}
     >
       <h1 className="text-3xl font-bold">You lose.</h1>
       <h3 className="text-2xl ">The Correct Word is</h3>

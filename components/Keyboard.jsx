@@ -8,7 +8,7 @@ export default function Keyboard(props) {
   const r3 = 'ZXCVBNM';
 
   return (
-    <div className="w-[416px] space-y-1 bg-slate-200 p-2 rounded-lg">
+    <div className="max-w-[95%] w-[416px] space-y-1 bg-slate-200 p-2 rounded-lg">
       <div className="grid grid-cols-10 gap-1">
         {r1.split('').map((letter, i) => (
           <Button
@@ -36,8 +36,8 @@ export default function Keyboard(props) {
         ))}
       </div>
       <div className="grid grid-cols-11 gap-1">
-        <Button onClick={(e) => eventHandler(e)} className={`lg:pointer-events-none col-span-2`} value="Enter">
-          Enter
+        <Button onClick={(e) => eventHandler(e)} className={`lg:pointer-events-none col-span-2`} value="Backspace">
+          {`<<`}
         </Button>
 
         {r3.split('').map((letter, i) => (
@@ -52,8 +52,8 @@ export default function Keyboard(props) {
           </Button>
         ))}
 
-        <Button onClick={(e) => eventHandler(e)} className={`lg:pointer-events-none col-span-2`} value="Backspace">
-          Delete
+        <Button onClick={(e) => eventHandler(e)} className={`lg:pointer-events-none col-span-2`} value="Enter">
+          Enter
         </Button>
       </div>
       <Button
