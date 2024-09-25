@@ -1,19 +1,21 @@
 'use client';
 import LetterBox from '@/components/gamepage/LetterBox';
 import Keyboard from '@/components/Keyboard';
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import LosserBanner from '@/components/LosserBanner';
+import WinnerBanner from '@/components/WinnerBanner';
 
 export default function WordleTable(props) {
-  const router = useRouter();
   const { wordLength, gameId } = props;
   const [wordTable, setWordTable] = useState(['', '', '', '', '', '']);
   const [selected, setSelected] = useState(0);
   const [letterPositionArray, setLetterPositionArray] = useState(['', '', '', '', '', '']);
   const [alphabet, setAlphabet] = useState(Array(26).fill(''));
+  const [wBanner, setWBanner] = useState('hidden');
+  const [lBanner, setLBanner] = useState('hidden');
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
+    if (selected <= 5) window.addEventListener('keydown', handleKeyPress);
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
@@ -22,7 +24,7 @@ export default function WordleTable(props) {
   async function handleKeyPress(e) {
     e.preventDefault();
 
-    // Letter or Spcae
+    // Letter or Space
     if (((e.key >= 'a' && e.key <= 'z') || e.key === ' ') && wordTable[selected].length < wordLength) {
       const newWordTable = [...wordTable];
       newWordTable[selected] += e.key.toUpperCase();
@@ -53,28 +55,39 @@ export default function WordleTable(props) {
 
     if (res.status === 200) {
       // Correct
-      alert(resData.message);
-      router.push('/homepage');
+      // when the player wins
+      refreshTable(resData, res.status);
+      setWBanner('block');
+      // alert(resData.message);
+
+      // router.push('/homepage');
     } else if (res.status === 201) {
       //Invalid
       alert(resData.message);
     } else if (res.status === 202) {
       // Incorrect
-      const word = wordTable[selected];
-      const newAlphabet = [...alphabet];
-      for (let i = 0; i < word.length; i++) {
-        if (newAlphabet[word[i].charCodeAt(0) - 'A'.charCodeAt(0)] === 'G') continue;
-        newAlphabet[word[i].charCodeAt(0) - 'A'.charCodeAt(0)] = resData.letterPosition[i];
-      }
-      setAlphabet(newAlphabet);
-
-      const newLetterPositionArray = [...letterPositionArray];
-      newLetterPositionArray[selected] = resData.letterPosition;
-      setLetterPositionArray(newLetterPositionArray);
-      return setSelected(selected + 1);
+      refreshTable(resData, res.status);
     } else {
       console.log(resData.message);
     }
+  }
+
+  function refreshTable(resData, status) {
+    const word = wordTable[selected];
+    const newAlphabet = [...alphabet];
+    for (let i = 0; i < word.length; i++) {
+      if (newAlphabet[word[i].charCodeAt(0) - 'A'.charCodeAt(0)] === 'G') continue;
+      newAlphabet[word[i].charCodeAt(0) - 'A'.charCodeAt(0)] = resData.letterPosition[i];
+    }
+    setAlphabet(newAlphabet);
+
+    const newLetterPositionArray = [...letterPositionArray];
+    newLetterPositionArray[selected] = resData.letterPosition;
+    setLetterPositionArray(newLetterPositionArray);
+    setSelected(selected + 1);
+
+    // when the player lose
+    if (status !== 200 && selected === 5) setLBanner('block');
   }
 
   return (
@@ -92,6 +105,8 @@ export default function WordleTable(props) {
         ))}
       </div>
       <Keyboard alphabet={alphabet} />
+      <WinnerBanner className={wBanner} selected={selected} />
+      <LosserBanner className={lBanner} gameId={gameId} />
     </div>
   );
 }

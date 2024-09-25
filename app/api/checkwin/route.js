@@ -1,9 +1,11 @@
-import { GameId } from '@/lib/connectDB';
+import { connectDB, GameId } from '@/lib/connectDB';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
     const { gameId, word } = await req.json();
+
+    await connectDB();
     const { gameWord } = await GameId.findById(gameId);
     const letterPosition = checkLetterPosition(gameWord, word);
     if (gameWord === word) return NextResponse.json({ message: 'Correct word', letterPosition }, { status: 200 });
@@ -13,6 +15,7 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Incorrect word', letterPosition }, { status: 202 });
     }
   } catch (err) {
+    console.log(err.message || err);
     return NextResponse.json({ message: err.message || err }, { status: 500 });
   }
 }

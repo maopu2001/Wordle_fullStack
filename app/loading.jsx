@@ -1,5 +1,6 @@
 import Image from 'next/image';
+import Loading from '@/components/LoadingScreen';
 
-export default function Loading() {
-  return <Image priority src="/loading.svg" alt="loading" height={100} width={100} />;
+export default function loading() {
+  return <Loading />;
 }
