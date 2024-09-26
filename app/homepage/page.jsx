@@ -1,4 +1,4 @@
-import GameCodeForm from '@/components/GameCodeForm';
+import GameIdForm from '@/components/GameIdForm';
 import GameSelectForm from '@/components/GameSelectForm';
 import GameWordForm from '@/components/GameWordForm';
 import { redirect } from 'next/navigation';
@@ -17,7 +17,7 @@ export default async function page() {
       <div className="mt-10 grid lg:grid-cols-2 grid-cols-1 gap-3">
         <GameWordForm />
         <GameSelectForm />
-        <GameCodeForm />
+        <GameIdForm />
       </div>
     </>
   );
