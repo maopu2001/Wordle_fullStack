@@ -12,13 +12,14 @@ export default async function page() {
   }
 
   return (
-    <>
+    <div>
       <LogOut />
-      <div className="mt-10 grid lg:grid-cols-2 grid-cols-1 gap-3">
+      {/* <div className="mt-10 grid lg:grid-cols-2 grid-cols-1 gap-3"> */}
+      <div className="mt-10">
         <GameWordForm />
         {/* <GameSelectForm /> */}
         {/* <GameIdForm /> */}
       </div>
-    </>
+    </div>
   );
 }
