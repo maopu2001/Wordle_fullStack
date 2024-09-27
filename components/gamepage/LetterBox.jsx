@@ -3,6 +3,19 @@ export default function LetterBox(prop) {
 
   const focusLetter = selected === index ? wordle.length : -1;
 
+  return (
+    <div className="flex gap-2">
+      {Array.from({ length: wordLength }, (_, i) => (
+        <span
+          className={`${letterBgColor(i)} text-3xl size-10 rounded-md cursor-pointer flex justify-center items-center`}
+          key={i}
+        >
+          {wordle[i] || ''}
+        </span>
+      ))}
+    </div>
+  );
+
   function letterBgColor(i) {
     if (i !== focusLetter) {
       switch (letterPosition[i]) {
@@ -19,17 +32,4 @@ export default function LetterBox(prop) {
       return 'bg-slate-400';
     }
   }
-
-  return (
-    <div className="flex gap-2">
-      {Array.from({ length: wordLength }, (_, i) => (
-        <span
-          className={`${letterBgColor(i)} text-3xl size-10 rounded-md cursor-pointer flex justify-center items-center`}
-          key={i}
-        >
-          {wordle[i] || ''}
-        </span>
-      ))}
-    </div>
-  );
 }

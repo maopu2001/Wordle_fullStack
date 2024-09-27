@@ -10,6 +10,28 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  return (
+    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center">
+      <Input
+        onChange={(e) => {
+          setUsername(e.target.value);
+        }}
+        placeholder="Username"
+        className="shadow-none border-0 border-b-2 border-black"
+      />
+      <Input
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+        type="password"
+        placeholder="Password"
+        className="shadow-none border-0 border-b-2 border-black"
+      />
+      <span className="text-center text-red-500">{errorMessage}</span>
+      <Button className="rounded-xl w-full">Log In</Button>
+    </form>
+  );
+
   async function submitForm(e) {
     e.preventDefault();
     const User = {
@@ -30,32 +52,9 @@ export default function LoginForm() {
         const resData = await res.json();
         console.log(resData.message);
         router.replace(`/homepage`);
-
       }
     } catch (err) {
       console.error('Error during POST request:', err);
     }
   }
-
-  return (
-    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%]">
-      <Input
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-        placeholder="Username"
-        className="shadow-none border-0 border-b-2 border-black"
-      />
-      <Input
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        type="password"
-        placeholder="Password"
-        className="shadow-none border-0 border-b-2 border-black"
-      />
-      <span className="text-center text-red-500">{errorMessage}</span>
-      <Button className="rounded-xl">Log In</Button>
-    </form>
-  );
 }

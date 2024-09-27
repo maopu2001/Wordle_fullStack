@@ -11,7 +11,7 @@ export default function GameIdForm() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-2  bg-zinc-100 p-10 rounded-xl">
-      <p className="text-center mb-2">Enter a Game Code</p>
+      <p className="text-center mb-2">Enter a Game ID</p>
       <Input
         onChange={(e) => {
           setGameId(e.target.value);

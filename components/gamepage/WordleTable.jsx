@@ -21,6 +21,26 @@ export default function WordleTable(props) {
     };
   }, [wordTable, selected]);
 
+  return (
+    <div className="flex flex-col gap-4 justify-center items-center">
+      <div className="flex flex-col gap-2">
+        {wordTable.map((word, i) => (
+          <LetterBox
+            key={i}
+            index={i}
+            wordLength={wordLength}
+            wordle={word}
+            selected={selected}
+            letterPosition={letterPositionArray[i]}
+          />
+        ))}
+      </div>
+      <Keyboard alphabet={alphabet} />
+      <WinnerBanner className={wBanner} selected={selected} gameWord={wordTable[selected - 1]} />
+      <LosserBanner className={lBanner} gameId={gameId} />
+    </div>
+  );
+
   async function handleKeyPress(e) {
     e.preventDefault();
 
@@ -88,24 +108,4 @@ export default function WordleTable(props) {
     // when the player lose
     if (status !== 200 && selected === 5) return setLBanner('block');
   }
-
-  return (
-    <div className="flex flex-col gap-4 justify-center items-center">
-      <div className="flex flex-col gap-2">
-        {wordTable.map((word, i) => (
-          <LetterBox
-            key={i}
-            index={i}
-            wordLength={wordLength}
-            wordle={word}
-            selected={selected}
-            letterPosition={letterPositionArray[i]}
-          />
-        ))}
-      </div>
-      <Keyboard alphabet={alphabet} />
-      <WinnerBanner className={wBanner} selected={selected} gameWord={wordTable[selected - 1]} />
-      <LosserBanner className={lBanner} gameId={gameId} />
-    </div>
-  );
 }

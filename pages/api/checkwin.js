@@ -1,4 +1,5 @@
-import { connectDB, GameId } from '@/lib/connectDB';
+import { connectDB, GameId, Dictionary } from '@/lib/connectDB';
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
@@ -6,19 +7,35 @@ export default async function handler(req, res) {
       await connectDB();
       const { gameWord } = await GameId.findById(gameId);
       const letterPosition = checkLetterPosition(gameWord, word);
+
+      // correct
       if (gameWord === word) {
         return res.status(200).json({ message: 'Correct word', letterPosition });
-      } else if (word.indexOf(' ') !== -1 || word === '' || word.length !== gameWord.length) {
-        return res.status(201).json({ message: 'Invalid word' });
-      } else {
-        return res.status(202).json({ message: 'Incorrect word', letterPosition });
       }
+
+      // invalid
+      if (word.indexOf(' ') !== -1 || word === '' || word.length !== gameWord.length)
+        return res.status(201).json({ message: 'Invalid word' });
+
+      const isValid = await checkValidation(word);
+      if (!isValid) {
+        return res.status(201).json({ message: 'Word Not Found' });
+      }
+
+      //incorrect
+      return res.status(202).json({ message: 'Incorrect word', letterPosition });
     } catch (err) {
       return res.status(500).json({ message: err.message || err });
     }
   } else {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
+}
+
+async function checkValidation(word) {
+  const check = await Dictionary.findOne({ word: word });
+  if (!check) return false;
+  return true;
 }
 
 function checkLetterPosition(gameWord, currWord) {

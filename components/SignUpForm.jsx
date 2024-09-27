@@ -13,37 +13,8 @@ export default function SignUpForm() {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  async function submitForm(e) {
-    e.preventDefault();
-    const newUser = {
-      fullName,
-      username,
-      email,
-      password,
-      confirmedPassword,
-    };
-    try {
-      const res = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newUser),
-      });
-
-      if (!res.ok || res.status >= 400) {
-        const resData = await res.json();
-        setErrorMessage(resData.message);
-      } else {
-        const resData = await res.json();
-        console.log(resData);
-        router.push('/login');
-      }
-    } catch (err) {
-      console.error('Error during POST request:', err);
-    }
-  }
-
   return (
-    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%]">
+    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center">
       <Input
         onChange={(e) => setFullName(e.target.value)}
         placeholder="Full Name"
@@ -73,7 +44,36 @@ export default function SignUpForm() {
         className="shadow-none border-0 border-b-2 border-black"
       />
       <span className="text-center text-red-500 italic">{errorMessage}</span>
-      <Button className="rounded-xl">Sign Up</Button>
+      <Button className="rounded-xl w-full">Sign Up</Button>
     </form>
   );
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const newUser = {
+      fullName,
+      username,
+      email,
+      password,
+      confirmedPassword,
+    };
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!res.ok || res.status >= 400) {
+        const resData = await res.json();
+        setErrorMessage(resData.message);
+      } else {
+        const resData = await res.json();
+        console.log(resData);
+        router.push('/login');
+      }
+    } catch (err) {
+      console.error('Error during POST request:', err);
+    }
+  }
 }

@@ -16,8 +16,8 @@ export default async function page() {
       <LogOut />
       <div className="mt-10 grid lg:grid-cols-2 grid-cols-1 gap-3">
         <GameWordForm />
-        <GameSelectForm />
-        <GameIdForm />
+        {/* <GameSelectForm /> */}
+        {/* <GameIdForm /> */}
       </div>
     </>
   );
