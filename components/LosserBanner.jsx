@@ -1,25 +1,26 @@
-'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import Loading from './LoadingScreen';
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import Loading from "./LoadingScreen";
+import { Button } from "./ui/button";
 
 export default function LosserBanner(props) {
   const { className, gameId } = props;
-  const [correctWord, setCorrectWord] = useState('');
+  const [correctWord, setCorrectWord] = useState("");
 
   useEffect(() => {
     async function getCorrectWord() {
       const res = await fetch(`/api/correctword`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ gameId: gameId }),
       });
       const resData = await res.json();
       setCorrectWord(resData.gameWord);
     }
 
-    if (className.includes('block')) {
+    if (className.includes("block")) {
       getCorrectWord();
     }
   }, [className, gameId]);
@@ -30,17 +31,40 @@ export default function LosserBanner(props) {
     >
       <h1 className="text-3xl font-bold">You lose.</h1>
       <h3 className="text-2xl ">The Correct Word is</h3>
-      <h1 className="text-2xl font-bold text-green-600 mb-4">"{correctWord}"</h1>
-      <Link href="/">
-        <Image
-          className="bg-rose-950 rounded-md"
-          src="/home.svg"
-          priority={false}
-          alt="Homepage"
-          height={30}
-          width={30}
-        />
-      </Link>
+      <h1 className="text-2xl font-bold text-green-600 mb-4">
+        "{correctWord}"
+      </h1>
+
+      <div className="flex flex-wrap gap-4 justify-center items-center">
+        <Button className="w-36 bg-rose-800 text-white px-4 py-2 rounded-md hover:bg-rose-700">
+          <Link href="/" className="flex justify-center items-center gap-1">
+            <Image
+              src="/home.svg"
+              priority={false}
+              alt="Homepage"
+              height={30}
+              width={30}
+            />
+            <span>Home</span>
+          </Link>
+        </Button>
+
+        <Button className="w-36 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+          <Link
+            href={`https://www.oxfordlearnersdictionaries.com/definition/english/${correctWord.toLowerCase()}`}
+            target="_blank"
+            className="flex justify-center items-center gap-1"
+          >
+            <Image
+              src="/circle-question.svg"
+              alt="Meaning"
+              height={30}
+              width={30}
+            />
+            <span>Meaning</span>
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

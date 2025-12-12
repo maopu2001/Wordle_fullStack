@@ -4,6 +4,7 @@ import Keyboard from "@/components/Keyboard";
 import { useState, useEffect } from "react";
 import LosserBanner from "@/components/LosserBanner";
 import WinnerBanner from "@/components/WinnerBanner";
+import { toast } from "sonner";
 
 export default function WordleTable(props) {
   const { wordLength, gameId } = props;
@@ -30,7 +31,7 @@ export default function WordleTable(props) {
 
   return (
     <div className="flex flex-col gap-4 justify-center items-center">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 select-none">
         {wordTable.map((word, i) => (
           <LetterBox
             key={i}
@@ -42,7 +43,7 @@ export default function WordleTable(props) {
           />
         ))}
       </div>
-      <Keyboard alphabet={alphabet} />
+      <Keyboard className="mt-10" alphabet={alphabet} />
       <WinnerBanner
         className={wBanner}
         selected={selected}
@@ -92,12 +93,9 @@ export default function WordleTable(props) {
       // when the player wins
       refreshTable(resData, res.status);
       setWBanner("block");
-      // alert(resData.message);
-
-      // router.push('/');
     } else if (res.status === 201) {
       //Invalid
-      alert(resData.message);
+      toast.error(resData.message);
     } else if (res.status === 202) {
       // Incorrect
       refreshTable(resData, res.status);
