@@ -1,25 +1,21 @@
-import fs from 'fs';
-import { connectDB, Dictionary } from '@/lib/connectDB';
+import fs from "fs";
+import { connectDB, Dictionary } from "@/lib/connectDB";
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    const arr = Object.keys(JSON.parse(fs.readFileSync('./dictionary.json', 'utf8')));
-    const result = [];
-    for (let i of arr) {
-      if (i.length > 2 && i.length <= 7) {
-        const newWord = {
-          word: i.toUpperCase(),
-          length: i.length,
-        };
-        result.push(newWord);
-      }
-    }
-
+  if (req.method === "GET") {
     await connectDB();
     const options = { ordered: true };
-    await Dictionary.insertMany(result, options);
-    return res.status(200).json({ message: 'OK' });
+    const dictionaryCount = await Dictionary.countDocuments();
+    if (dictionaryCount > 0) {
+      return res.status(200).json({ message: "Dictionary already populated" });
+    }
+
+    const words = JSON.parse(fs.readFileSync("./words.json", "utf8"));
+    await Dictionary.insertMany(words, options);
+    return res
+      .status(200)
+      .json({ message: "Dictionary populated successfully" });
   } else {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
 }
