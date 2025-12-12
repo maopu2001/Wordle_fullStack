@@ -16,7 +16,7 @@ export default function GameWordForm() {
   const [step2, setStep2] = useState('hidden');
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 bg-zinc-100 p-10 rounded-xl">
+    <div className="flex w-[400px] flex-col items-center justify-center gap-2 bg-zinc-100 p-10 rounded-xl">
       <p className="text-center mb-2">Create a New Game using this word (3-7 letters)</p>
 
       <Input

@@ -1,17 +1,20 @@
-'use client';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
-    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center">
+    <form
+      onSubmit={(e) => submitForm(e)}
+      className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center"
+    >
       <Input
         onChange={(e) => {
           setUsername(e.target.value);
@@ -39,9 +42,9 @@ export default function LoginForm() {
       password,
     };
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(User),
       });
 
@@ -50,11 +53,10 @@ export default function LoginForm() {
         setErrorMessage(resData.message);
       } else {
         const resData = await res.json();
-        console.log(resData.message);
-        router.replace(`/homepage`);
+        router.replace(`/`);
       }
     } catch (err) {
-      console.error('Error during POST request:', err);
+      console.error("Error during POST request:", err);
     }
   }
 }

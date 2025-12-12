@@ -11,7 +11,7 @@ export default function WinnerBanner(props) {
       <h3 className="text-2xl ">Guess: {selected}</h3>
       <h3 className="text-2xl ">The Correct Word is</h3>
       <h1 className="text-2xl font-bold text-green-600 mb-4">"{gameWord}"</h1>
-      <Link href="/homepage">
+      <Link href="/">
         <Image
           className="bg-green-800 rounded-md"
           src="/home.svg"

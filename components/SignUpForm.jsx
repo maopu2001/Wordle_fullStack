@@ -1,20 +1,23 @@
-'use client';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const router = useRouter();
-  const [fullName, setFullName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
-    <form onSubmit={(e) => submitForm(e)} className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center">
+    <form
+      onSubmit={(e) => submitForm(e)}
+      className="my-2 flex flex-col gap-2 w-[80%] justify-center items-center"
+    >
       <Input
         onChange={(e) => setFullName(e.target.value)}
         placeholder="Full Name"
@@ -58,9 +61,9 @@ export default function SignUpForm() {
       confirmedPassword,
     };
     try {
-      const res = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
       });
 
@@ -69,11 +72,10 @@ export default function SignUpForm() {
         setErrorMessage(resData.message);
       } else {
         const resData = await res.json();
-        console.log(resData);
-        router.push('/login');
+        router.push("/login");
       }
     } catch (err) {
-      console.error('Error during POST request:', err);
+      console.error("Error during POST request:", err);
     }
   }
 }

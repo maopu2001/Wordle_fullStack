@@ -31,7 +31,7 @@ export default function LosserBanner(props) {
       <h1 className="text-3xl font-bold">You lose.</h1>
       <h3 className="text-2xl ">The Correct Word is</h3>
       <h1 className="text-2xl font-bold text-green-600 mb-4">"{correctWord}"</h1>
-      <Link href="/homepage">
+      <Link href="/">
         <Image
           className="bg-rose-950 rounded-md"
           src="/home.svg"

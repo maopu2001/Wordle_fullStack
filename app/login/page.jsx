@@ -6,7 +6,7 @@ import jwtCheck from '@/lib/jwtCheck';
 export default async function pages() {
   const isAuthenticated = await jwtCheck();
   if (isAuthenticated) {
-    redirect('/homepage');
+    redirect('/');
   }
   return (
     <main className="bg-zinc-200 flex flex-col justify-center items-center rounded-2xl max-w-[400px] w-[90%] min-h-1/3 py-8">

@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 export default async function pages() {
   const isAuthenticated = await jwtCheck();
   if (isAuthenticated) {
-    redirect('/homepage');
+    redirect('/');
   }
 
   return (
